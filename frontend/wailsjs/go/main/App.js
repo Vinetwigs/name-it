@@ -30,6 +30,14 @@ export function SetAggressiveness(arg1) {
   return window['go']['main']['App']['SetAggressiveness'](arg1);
 }
 
+export function SetCustomPattern(arg1) {
+  return window['go']['main']['App']['SetCustomPattern'](arg1);
+}
+
+export function SetNamingMode(arg1) {
+  return window['go']['main']['App']['SetNamingMode'](arg1);
+}
+
 export function StartWorking(arg1) {
   return window['go']['main']['App']['StartWorking'](arg1);
 }

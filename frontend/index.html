@@ -89,6 +89,57 @@
 
                 </div>
 
+                <div class="naming-mode">
+
+                    <label for="naming-mode">
+                        ALERT MODE
+                    </label>
+
+                    <select id="naming-mode">
+                        <option value="every_file">
+                            ALERT EVERY FILE
+                        </option>
+
+                        <option value="pattern_1">filename_vX.extension</option>
+                        <option value="pattern_2">YYYY-MM-DD_filename_vX.extension</option>
+
+                        <option value="custom">
+                            CUSTOM PATTERN
+                        </option>
+                    </select>
+
+                    <div id="custom-pattern-wrap" class="hidden">
+                        <label for="custom-pattern">
+                            CUSTOM PATTERN
+                        </label>
+
+                        <input
+                            id="custom-pattern"
+                            type="text"
+                            value="data_filename_vX.extension"
+                            placeholder="data_filename_vX.extension"
+                            spellcheck="false"
+                        >
+
+                        <div class="pattern-help">
+                            <strong>CUSTOM PATTERN GUIDE</strong>
+
+                            <div><code>filename</code> = file name</div>
+                            <div><code>extension</code> = file extension</div>
+                            <div><code>X</code> = one or more numbers</div>
+                            <div><code>YYYY</code> = 4-digit year</div>
+                            <div><code>MM</code> = 2-digit month</div>
+                            <div><code>DD</code> = 2-digit day</div>
+
+                            <div class="pattern-example">
+                                Example:
+                                <code>project_filename_vX.extension</code>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
             </div>
 
             <div class="actions">

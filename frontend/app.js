@@ -3,6 +3,9 @@ const $ = s => document.querySelector(s);
 const idle = $('#idle');
 const working = $('#working');
 const overlay = $('#overlay');
+const namingMode = $('#naming-mode');
+const customPatternWrap = $('#custom-pattern-wrap');
+const customPattern = $('#custom-pattern');
 
 let state = {
     active: false,
@@ -175,4 +178,26 @@ function showCrime(data) {
     );
 }
 
+function updateCustomPatternVisibility() {
+    customPatternWrap.classList.toggle(
+        'hidden',
+        namingMode.value !== 'custom'
+    );
+}
+
+namingMode.onchange = async () => {
+    const mode = namingMode.value;
+
+    updateCustomPatternVisibility();
+
+    await window.go.main.App.SetNamingMode(mode);
+};
+
+customPattern.oninput = async () => {
+    await window.go.main.App.SetCustomPattern(
+        customPattern.value
+    );
+};
+
+updateCustomPatternVisibility();
 refresh();

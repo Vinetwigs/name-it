@@ -18,6 +18,10 @@ export function Pause(arg1:number):Promise<void>;
 
 export function SetAggressiveness(arg1:string):Promise<void>;
 
+export function SetCustomPattern(arg1:string):Promise<void>;
+
+export function SetNamingMode(arg1:string):Promise<void>;
+
 export function StartWorking(arg1:string):Promise<void>;
 
 export function StopWorking():Promise<void>;

@@ -9,6 +9,7 @@ import (
 	"github.com/wailsapp/wails/v2/pkg/runtime"
 	"name-it.vino/internal/config"
 	"name-it.vino/internal/history"
+	"name-it.vino/internal/pattern"
 	"name-it.vino/internal/reminder"
 	"name-it.vino/internal/scorer"
 	"name-it.vino/internal/session"
@@ -68,6 +69,13 @@ func (a *App) Pause(minutes int)              { a.session.Pause(time.Duration(mi
 func (a *App) handleEvent(ev watcher.FileEvent) {
 
 	if ev.Type != watcher.Create {
+		return
+	}
+
+	filename := filepath.Base(ev.Path)
+
+	if !a.shouldNotify(filename) {
+		a.session.Record(ev.Path)
 		return
 	}
 
@@ -135,4 +143,39 @@ func (a *App) DismissNotice() {
 	}
 
 	runtime.WindowMinimise(a.ctx)
+}
+
+func (a *App) SetNamingMode(mode string) {
+	a.config.NamingMode = mode
+}
+
+func (a *App) SetCustomPattern(pattern string) {
+	a.config.CustomPattern = pattern
+}
+
+func (a *App) shouldNotify(filename string) bool {
+	switch a.config.NamingMode {
+
+	case "every_file":
+		return true
+
+	case "pattern_1":
+		return !pattern.Matches(filename, "filename_vX.extension")
+
+	case "pattern_2":
+		return !pattern.Matches(filename, "YYYY-MM-DD_filename_vX.extension")
+
+	case "custom":
+		if a.config.CustomPattern == "" {
+			return true
+		}
+
+		return !pattern.Matches(
+			filename,
+			a.config.CustomPattern,
+		)
+
+	default:
+		return true
+	}
 }

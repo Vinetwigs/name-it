@@ -8,6 +8,8 @@ export namespace config {
 	    ignoredDirectories: string[];
 	    suspiciousWords: string[];
 	    notificationsEnabled: boolean;
+	    namingMode: string;
+	    customPattern: string;
 	
 	    static createFrom(source: any = {}) {
 	        return new Config(source);
@@ -22,6 +24,8 @@ export namespace config {
 	        this.ignoredDirectories = source["ignoredDirectories"];
 	        this.suspiciousWords = source["suspiciousWords"];
 	        this.notificationsEnabled = source["notificationsEnabled"];
+	        this.namingMode = source["namingMode"];
+	        this.customPattern = source["customPattern"];
 	    }
 	}
 

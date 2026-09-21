@@ -576,6 +576,88 @@ header {
 }
 
 /* =========================================================
+   NAMING MODE
+   ========================================================= */
+
+.naming-mode {
+    margin: 26px 0;
+    text-align: left;
+}
+
+.naming-mode > label,
+.naming-mode #custom-pattern-wrap > label {
+    display: block;
+    margin-bottom: 10px;
+    color: var(--ink);
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 2px;
+}
+
+.naming-mode select,
+.naming-mode input {
+    width: 100%;
+    min-height: 44px;
+    padding: 10px 12px;
+    background: var(--white);
+    border: 3px solid var(--ink);
+    border-radius: 0;
+    color: var(--ink);
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 900;
+}
+
+.naming-mode select {
+    cursor: pointer;
+}
+
+.naming-mode input {
+    margin-top: 4px;
+}
+
+.naming-mode select:focus,
+.naming-mode input:focus {
+    outline: 4px solid var(--pink-soft);
+    outline-offset: 2px;
+}
+
+#custom-pattern-wrap {
+    margin-top: 14px;
+}
+
+.pattern-help {
+    margin-top: 10px;
+    padding: 12px;
+    border: 2px solid var(--line);
+    background: var(--paper);
+    color: var(--muted);
+    font-size: 10px;
+    line-height: 1.7;
+}
+
+.pattern-help strong {
+    display: block;
+    margin-bottom: 6px;
+    color: var(--ink);
+    font-size: 10px;
+    letter-spacing: 1px;
+}
+
+.pattern-help code {
+    color: var(--pink-dark);
+    font-family: inherit;
+    font-weight: 900;
+}
+
+.pattern-example {
+    margin-top: 7px;
+    padding-top: 7px;
+    border-top: 1px solid var(--line);
+    color: var(--ink);
+}
+
+/* =========================================================
    RESPONSIVE
    ========================================================= */
 
