@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NAME IT</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <main id="app">
+
+        <header class="topbar">
+            <div class="brand">NAME IT</div>
+
+            <div id="status" class="status off">
+                OFFLINE
+            </div>
+        </header>
+
+        <!-- IDLE -->
+
+        <section id="idle" class="screen">
+
+            <div class="mascot" aria-hidden="true">
+                X
+            </div>
+
+            <h1>YOU ARE NOT WORKING.</h1>
+
+            <p class="sub">
+                GOOD. NOTHING CAN BE RUINED YET.
+            </p>
+
+            <button id="start" class="danger big">
+                START WORKING
+            </button>
+
+        </section>
+
+        <!-- WORKING -->
+
+        <section id="working" class="screen hidden">
+
+            <div id="path" class="path">
+                —
+            </div>
+
+            <div class="stats">
+
+                <div class="stat">
+                    <strong id="watched">0</strong>
+                    <small>FILES WATCHED</small>
+                </div>
+
+                <div class="stat">
+                    <strong id="questionable">0</strong>
+                    <small>QUESTIONABLE</small>
+                </div>
+
+            </div>
+
+            <div class="aggr">
+
+                <label>
+                    AGGRESSION
+                </label>
+
+                <div class="levels">
+
+                    <button data-level="polite">
+                        POLITE
+                    </button>
+
+                    <button data-level="normal">
+                        NORMAL
+                    </button>
+
+                    <button
+                        data-level="annoying"
+                        class="selected"
+                    >
+                        ANNOYING
+                    </button>
+
+                    <button data-level="unhinged">
+                        UNHINGED
+                    </button>
+
+                </div>
+
+            </div>
+
+            <div class="actions">
+
+                <button id="pause" class="secondary">
+                    PAUSE 30 MIN
+                </button>
+
+                <button id="stop" class="danger">
+                    STOP WORKING
+                </button>
+
+            </div>
+
+            <section class="crimes">
+
+                <div class="section-title">
+                    RECENT CRIMES
+                </div>
+
+                <div id="crimes"></div>
+
+            </section>
+
+        </section>
+
+        <!-- NOTIFICATION -->
+
+        <div id="overlay" class="overlay hidden">
+
+            <div class="impact">
+
+                <div class="impact-line">
+                    NAME IT
+                </div>
+
+                <div id="overlay-message" class="message"></div>
+
+                <div id="overlay-file" class="file"></div>
+
+                <button id="dismiss" class="danger">
+                    I WILL RENAME IT
+                </button>
+
+            </div>
+
+        </div>
+
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>

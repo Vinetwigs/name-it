@@ -1,0 +1,620 @@
+
+:root {
+    --cream: #fff4d6;
+    --paper: #f7e8c0;
+    --ink: #241b25;
+    --muted: #75676f;
+
+    --pink: #e83f68;
+    --pink-dark: #b82d4f;
+    --pink-soft: #ffd4dc;
+
+    --green: #5c9f68;
+    --green-dark: #397047;
+    --green-soft: #d8ead3;
+
+    --line: #cbb9a1;
+    --white: #fffaf0;
+}
+
+/* =========================================================
+   RESET
+   ========================================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    width: 100%;
+    min-height: 100%;
+}
+
+body {
+    min-height: 100vh;
+    overflow-x: hidden;
+
+    background: var(--cream);
+    color: var(--ink);
+
+    font-family:
+        "Courier New",
+        Courier,
+        monospace;
+
+    font-weight: 700;
+}
+
+button {
+    appearance: none;
+    border-radius: 0;
+    cursor: pointer;
+
+    font-family: inherit;
+    font-weight: 900;
+    letter-spacing: 1px;
+}
+
+button:focus-visible {
+    outline: 4px solid var(--ink);
+    outline-offset: 3px;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* =========================================================
+   APP
+   ========================================================= */
+
+#app {
+    position: relative;
+
+    width: 100%;
+    min-height: 100vh;
+
+    padding: 24px;
+
+    background: var(--cream);
+}
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.topbar,
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    min-height: 48px;
+
+    border-bottom: 4px solid var(--ink);
+    padding-bottom: 14px;
+}
+
+.brand {
+    color: var(--ink);
+
+    font-size: 28px;
+    font-weight: 900;
+    line-height: 1;
+
+    letter-spacing: 4px;
+}
+
+.status {
+    padding: 7px 10px;
+
+    border: 3px solid var(--ink);
+
+    font-size: 12px;
+    line-height: 1;
+}
+
+.status.off {
+    background: var(--paper);
+    color: var(--muted);
+}
+
+.status.on {
+    background: var(--green);
+    color: var(--white);
+    border-color: var(--ink);
+}
+
+/* =========================================================
+   GENERAL SCREEN
+   ========================================================= */
+
+.screen {
+    width: 100%;
+    max-width: 720px;
+
+    margin: 0 auto;
+
+    padding: 42px 8px 30px;
+
+    text-align: center;
+}
+
+/* =========================================================
+   IDLE SCREEN
+   ========================================================= */
+
+.mascot {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 72px;
+    height: 72px;
+
+    margin: 10px auto 28px;
+
+    background: var(--pink-soft);
+
+    border: 5px solid var(--ink);
+
+    color: var(--pink);
+
+    font-size: 40px;
+    font-weight: 900;
+
+    box-shadow: 7px 7px 0 var(--ink);
+}
+
+.screen h1 {
+    margin: 0 0 12px;
+
+    color: var(--ink);
+
+    font-size: 27px;
+    line-height: 1.15;
+    font-weight: 900;
+}
+
+.sub {
+    margin: 0 auto;
+
+    max-width: 440px;
+
+    color: var(--muted);
+
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+/* =========================================================
+   WORKING
+   ========================================================= */
+
+.path {
+    width: 100%;
+
+    margin: 26px 0 18px;
+    padding: 13px;
+
+    background: var(--white);
+
+    border: 3px solid var(--ink);
+
+    color: var(--muted);
+
+    text-align: left;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    font-size: 12px;
+}
+
+/* =========================================================
+   STATS
+   ========================================================= */
+
+.stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+
+    margin: 18px 0;
+}
+
+.stat {
+    padding: 16px 12px;
+
+    background: var(--white);
+
+    border: 3px solid var(--ink);
+}
+
+.stats strong {
+    display: block;
+
+    margin-bottom: 5px;
+
+    color: var(--ink);
+
+    font-size: 34px;
+    line-height: 1;
+}
+
+.stats small {
+    color: var(--muted);
+
+    font-size: 10px;
+    font-weight: 900;
+}
+
+/* =========================================================
+   AGGRESSION
+   ========================================================= */
+
+.aggr {
+    margin: 26px 0;
+
+    text-align: left;
+}
+
+.aggr label,
+.section-title {
+    display: block;
+
+    margin-bottom: 10px;
+
+    color: var(--ink);
+
+    font-size: 11px;
+    font-weight: 900;
+
+    letter-spacing: 2px;
+}
+
+.levels {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+}
+
+.levels button {
+    min-height: 42px;
+
+    padding: 9px 6px;
+
+    background: var(--white);
+
+    border: 3px solid var(--ink);
+
+    color: var(--muted);
+
+    font-size: 11px;
+}
+
+.levels button:hover {
+    background: var(--paper);
+}
+
+.levels button.selected {
+    background: var(--pink-soft);
+
+    color: var(--pink-dark);
+
+    border-color: var(--ink);
+
+    box-shadow: 4px 4px 0 var(--ink);
+}
+
+/* =========================================================
+   BUTTONS
+   ========================================================= */
+
+.actions {
+    width: 100%;
+}
+
+.danger,
+.secondary {
+    width: 100%;
+
+    margin-top: 10px;
+
+    padding: 14px 16px;
+
+    border: 4px solid var(--ink);
+
+    font-size: 13px;
+}
+
+.danger {
+    background: var(--pink);
+
+    color: var(--white);
+
+    box-shadow: 6px 6px 0 var(--ink);
+}
+
+.danger:hover {
+    background: var(--pink-dark);
+
+    transform: translate(3px, 3px);
+
+    box-shadow: 3px 3px 0 var(--ink);
+}
+
+.secondary {
+    background: var(--white);
+
+    color: var(--ink);
+
+    box-shadow: 5px 5px 0 var(--ink);
+}
+
+.secondary:hover {
+    background: var(--paper);
+
+    transform: translate(2px, 2px);
+
+    box-shadow: 3px 3px 0 var(--ink);
+}
+
+.big {
+    max-width: 360px;
+
+    margin-top: 30px;
+
+    font-size: 16px;
+}
+
+/* =========================================================
+   RECENT CRIMES
+   ========================================================= */
+
+.crimes {
+    margin-top: 34px;
+
+    padding-top: 18px;
+
+    border-top: 4px solid var(--ink);
+
+    text-align: left;
+}
+
+.crime {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 12px;
+
+    min-height: 50px;
+
+    border-bottom: 2px solid var(--line);
+
+    padding: 10px 0;
+}
+
+.crime .name {
+    max-width: calc(100% - 50px);
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    color: var(--ink);
+
+    font-size: 12px;
+}
+
+.crime small {
+    color: var(--muted);
+
+    font-size: 10px;
+}
+
+.crime .score {
+    min-width: 32px;
+
+    color: var(--pink-dark);
+
+    font-size: 14px;
+    font-weight: 900;
+
+    text-align: right;
+}
+
+/* =========================================================
+   FULLSCREEN NOTIFICATION
+   ========================================================= */
+
+.overlay {
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 99999;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    width: 100vw;
+    height: 100vh;
+
+    padding: 24px;
+
+    background: var(--pink);
+
+    animation: appear 0.12s steps(2, end);
+}
+
+/*
+   Thick pixel border.
+   No shadow. No glow. No transparency.
+*/
+
+.overlay::before {
+    content: "";
+
+    position: absolute;
+
+    inset: 14px;
+
+    border: 6px solid var(--ink);
+
+    pointer-events: none;
+}
+
+/* =========================================================
+   MODAL
+   ========================================================= */
+
+.impact {
+    position: relative;
+
+    width: min(720px, 100%);
+
+    padding: 38px 26px 30px;
+
+    background: var(--cream);
+
+    border: 6px solid var(--ink);
+
+    box-shadow: 12px 12px 0 var(--ink);
+
+    text-align: center;
+}
+
+/* =========================================================
+   MODAL TITLE
+   ========================================================= */
+
+.impact-line {
+    display: inline-block;
+
+    margin-bottom: 24px;
+
+    padding: 8px 12px;
+
+    background: var(--ink);
+
+    color: var(--pink);
+
+    font-size: 34px;
+    font-weight: 900;
+
+    line-height: 1;
+
+    letter-spacing: 5px;
+}
+
+/* =========================================================
+   MODAL MESSAGE
+   ========================================================= */
+
+.message {
+    margin: 0 auto;
+
+    max-width: 600px;
+
+    color: var(--ink);
+
+    font-size: 21px;
+    line-height: 1.35;
+    font-weight: 900;
+
+    text-transform: uppercase;
+
+    white-space: pre-line;
+}
+
+.file {
+    margin: 22px 0;
+
+    padding: 12px;
+
+    background: var(--pink-soft);
+
+    border: 3px solid var(--ink);
+
+    color: var(--pink-dark);
+
+    font-size: 15px;
+    line-height: 1.3;
+
+    word-break: break-word;
+}
+
+/* =========================================================
+   MODAL BUTTON
+   ========================================================= */
+
+.overlay .danger {
+    margin-top: 8px;
+
+    font-size: 14px;
+}
+
+/* =========================================================
+   ANIMATION
+   ========================================================= */
+
+@keyframes appear {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 500px) {
+    #app {
+        padding: 18px;
+    }
+
+    .brand {
+        font-size: 23px;
+        letter-spacing: 3px;
+    }
+
+    .screen {
+        padding-top: 32px;
+    }
+
+    .screen h1 {
+        font-size: 22px;
+    }
+
+    .stats strong {
+        font-size: 29px;
+    }
+
+    .impact {
+        padding: 30px 18px 24px;
+    }
+
+    .impact-line {
+        font-size: 27px;
+        letter-spacing: 4px;
+    }
+
+    .message {
+        font-size: 17px;
+    }
+
+    .file {
+        font-size: 13px;
+    }
+}

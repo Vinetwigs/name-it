@@ -1,0 +1,1 @@
+{"name":"name-it-frontend","private":true,"scripts":{"build":"node build.mjs","dev":"node build.mjs"}}
