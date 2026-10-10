@@ -18,8 +18,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   string.
 - `internal/updater` package for querying the GitHub releases feed and
   comparing semantic versions.
-- GitHub Actions workflow that builds, strips and UPX-compresses releases on
-  every version tag, plus a continuous integration workflow.
+- GitHub Actions workflow that builds, strips and UPX-compresses releases for
+  Windows, Linux and macOS on every version tag, plus a continuous integration
+  workflow.
 - `build.ps1` for producing a compressed, stripped build locally.
 
 ### Fixed
