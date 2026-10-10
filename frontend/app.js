@@ -3,9 +3,12 @@ const $ = s => document.querySelector(s);
 const idle = $('#idle');
 const working = $('#working');
 const overlay = $('#overlay');
+const updateOverlay = $('#update-overlay');
 const namingMode = $('#naming-mode');
 const customPatternWrap = $('#custom-pattern-wrap');
 const customPattern = $('#custom-pattern');
+
+let currentVersion = '';
 
 let state = {
     active: false,
@@ -199,5 +202,53 @@ customPattern.oninput = async () => {
     );
 };
 
+async function renderVersion() {
+    try {
+        currentVersion = await window.go.main.App.GetVersion();
+        $('#version').textContent = currentVersion;
+    } catch {
+        // The backend might not be bound yet during a hot reload.
+    }
+}
+
+function showUpdate(release) {
+    if (!release || !release.version) {
+        return;
+    }
+
+    $('#update-current').textContent =
+        currentVersion || 'A PREVIOUS VERSION';
+
+    $('#update-latest').textContent =
+        release.version;
+
+    updateOverlay.classList.remove('hidden');
+}
+
+async function checkUpdate() {
+    try {
+        showUpdate(
+            await window.go.main.App.GetPendingUpdate()
+        );
+    } catch {
+        // Update checks are optional; ignore any failure.
+    }
+}
+
+$('#update-open').onclick = async () => {
+    updateOverlay.classList.add('hidden');
+
+    if (window.go?.main?.App?.OpenUpdatePage) {
+        await window.go.main.App.OpenUpdatePage();
+    }
+};
+
+$('#update-dismiss').onclick = () => {
+    updateOverlay.classList.add('hidden');
+};
+
+window.runtime?.EventsOn?.('nameit:update', showUpdate);
+
 updateCustomPatternVisibility();
+renderVersion().then(checkUpdate);
 refresh();

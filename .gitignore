@@ -1,5 +1,19 @@
+# Build output
 build/bin/
 frontend/dist/
+dist/
+stage/
+
+# Dependencies
 frontend/node_modules/
+
+# Packaged releases are distributed through GitHub Releases,
+# not committed to the repository.
+BUILDS/
+VERSIONS/
+*.zip
+
+# Local development
 *.log
 .DS_Store
+Thumbs.db

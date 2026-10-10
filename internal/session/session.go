@@ -1,3 +1,5 @@
+// Package session tracks the lifetime of a single "working session": the
+// watched folder, the files seen so far and whether the user has taken a break.
 package session
 
 import (

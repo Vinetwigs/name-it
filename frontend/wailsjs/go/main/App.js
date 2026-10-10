@@ -18,8 +18,20 @@ export function GetCrimes() {
   return window['go']['main']['App']['GetCrimes']();
 }
 
+export function GetPendingUpdate() {
+  return window['go']['main']['App']['GetPendingUpdate']();
+}
+
 export function GetState() {
   return window['go']['main']['App']['GetState']();
+}
+
+export function GetVersion() {
+  return window['go']['main']['App']['GetVersion']();
+}
+
+export function OpenUpdatePage() {
+  return window['go']['main']['App']['OpenUpdatePage']();
 }
 
 export function Pause(arg1) {

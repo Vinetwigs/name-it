@@ -1,3 +1,5 @@
+// Package history keeps a rolling list of the worst filenames seen during the
+// current run, newest first.
 package history
 
 import (

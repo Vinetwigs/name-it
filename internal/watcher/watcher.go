@@ -1,3 +1,6 @@
+// Package watcher wraps fsnotify with the handful of rules Name It needs:
+// follow new directories, ignore editor noise, and report only files that were
+// genuinely created (not rewritten by a rename).
 package watcher
 
 import (
@@ -60,35 +63,30 @@ func (w *Watcher) Start() error {
 		return err
 	}
 
-	// Establish the initial baseline.
-	//
-	// Files that already exist when monitoring starts are not
-	// considered new files.
+	// Files already present at startup form the baseline, so they are not
+	// reported as new.
 	w.fileCount = w.countFiles()
 
 	w.wg.Add(1)
-
 	go w.loop()
 
 	return nil
 }
 
+// addTree registers every visible directory below root. Hidden directories are
+// skipped on purpose so the watcher never dives into .git or similar.
 func (w *Watcher) addTree(root string) error {
-	return filepath.Walk(
-		root,
-		func(path string, info os.FileInfo, err error) error {
-			if err != nil {
-				return nil
-			}
-
-			if info.IsDir() &&
-				!strings.HasPrefix(info.Name(), ".") {
-				return w.fw.Add(path)
-			}
-
+	return filepath.Walk(root, func(path string, info os.FileInfo, err error) error {
+		if err != nil {
 			return nil
-		},
-	)
+		}
+
+		if info.IsDir() && !strings.HasPrefix(info.Name(), ".") {
+			return w.fw.Add(path)
+		}
+
+		return nil
+	})
 }
 
 func (w *Watcher) Stop() {
@@ -118,21 +116,17 @@ func (w *Watcher) loop() {
 			if !ok {
 				return
 			}
-
 			w.handleEvent(event)
 
 		case <-w.fw.Errors:
-			// Filesystem watcher errors are intentionally ignored here.
-			// The watcher will continue processing future events.
+			// Watcher errors are transient and self-healing; keeping the loop
+			// alive matters more than reporting them.
 		}
 	}
 }
 
 func (w *Watcher) handleEvent(event fsnotify.Event) {
-
-	// NAME IT only cares about CREATE events.
-	//
-	// Rename, Remove and Write are ignored here.
+	// Only creations matter. Renames, removals and writes are not crimes.
 	if event.Op&fsnotify.Create == 0 {
 		return
 	}
@@ -142,8 +136,6 @@ func (w *Watcher) handleEvent(event fsnotify.Event) {
 		return
 	}
 
-	// A newly created directory is not a file crime.
-	// Start watching it instead.
 	if info.IsDir() {
 		_ = w.fw.Add(event.Name)
 		return
@@ -153,14 +145,13 @@ func (w *Watcher) handleEvent(event fsnotify.Event) {
 		return
 	}
 
-	// Wait a moment before deciding whether this CREATE actually
-	// increased the number of files.
-	//
-	// This is important on Windows because a rename can sometimes
-	// appear as a REMOVE + CREATE sequence.
+	// Confirm asynchronously: on Windows a rename often arrives as a
+	// REMOVE followed by a CREATE, which must not be mistaken for a new file.
 	go w.checkNewFile(event.Name)
 }
 
+// checkNewFile waits for the filesystem to settle, then reports the file only
+// if the total file count actually grew.
 func (w *Watcher) checkNewFile(path string) {
 	const debounce = 200 * time.Millisecond
 
@@ -174,17 +165,10 @@ func (w *Watcher) checkNewFile(path string) {
 	currentCount := w.countFiles()
 
 	w.mu.Lock()
-
 	previousCount := w.fileCount
-
-	// Always update the baseline after the filesystem settles.
 	w.fileCount = currentCount
-
 	w.mu.Unlock()
 
-	// The total number of files did not increase.
-	//
-	// This covers rename-like REMOVE + CREATE sequences.
 	if currentCount <= previousCount {
 		return
 	}
@@ -192,44 +176,39 @@ func (w *Watcher) checkNewFile(path string) {
 	w.emit(path, Create)
 }
 
+// countFiles returns the number of regular files below root, ignoring hidden
+// directories so the count stays consistent with addTree.
 func (w *Watcher) countFiles() int {
 	count := 0
 
-	_ = filepath.Walk(
-		w.root,
-		func(path string, info os.FileInfo, err error) error {
-			if err != nil {
-				return nil
-			}
-
-			if path == w.root {
-				return nil
-			}
-
-			if info.IsDir() {
-				// Do not count hidden directories.
-				//
-				// This also keeps the counting logic consistent
-				// with addTree().
-				if strings.HasPrefix(info.Name(), ".") {
-					return filepath.SkipDir
-				}
-
-				return nil
-			}
-
-			// Only actual files are counted.
-			if info.Mode().IsRegular() {
-				count++
-			}
-
+	_ = filepath.Walk(w.root, func(path string, info os.FileInfo, err error) error {
+		if err != nil {
 			return nil
-		},
-	)
+		}
+
+		if path == w.root {
+			return nil
+		}
+
+		if info.IsDir() {
+			if strings.HasPrefix(info.Name(), ".") {
+				return filepath.SkipDir
+			}
+			return nil
+		}
+
+		if info.Mode().IsRegular() {
+			count++
+		}
+
+		return nil
+	})
 
 	return count
 }
 
+// shouldIgnore filters out lock files and autosave drafts, which are created
+// constantly while working and say nothing about the user's naming habits.
 func (w *Watcher) shouldIgnore(path string) bool {
 	name := filepath.Base(path)
 
@@ -237,31 +216,27 @@ func (w *Watcher) shouldIgnore(path string) bool {
 		return true
 	}
 
-	if strings.Contains(
-		strings.ToLower(name),
-		"autosave",
-	) {
+	if strings.Contains(strings.ToLower(name), "autosave") {
 		return true
 	}
 
 	return false
 }
 
+// emit delivers an event to the callback, collapsing duplicates that arrive
+// within a quarter of a second.
 func (w *Watcher) emit(path string, eventType EventType) {
 	now := time.Now()
 
 	w.mu.Lock()
 
 	last, exists := w.seen[path]
-
-	if exists &&
-		now.Sub(last) < 250*time.Millisecond {
+	if exists && now.Sub(last) < 250*time.Millisecond {
 		w.mu.Unlock()
 		return
 	}
 
 	w.seen[path] = now
-
 	w.mu.Unlock()
 
 	w.cb(FileEvent{

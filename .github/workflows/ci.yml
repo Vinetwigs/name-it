@@ -1,0 +1,38 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - master
+      - main
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+          cache: true
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      # main.go embeds frontend/dist, which is not committed, so the assets
+      # have to exist before vet and test can compile the root package.
+      - name: Build frontend assets
+        working-directory: frontend
+        run: npm run build
+
+      - name: Vet
+        run: go vet ./...
+
+      - name: Test
+        run: go test ./...

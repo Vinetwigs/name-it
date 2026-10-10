@@ -11,7 +11,10 @@
     <main id="app">
 
         <header class="topbar">
-            <div class="brand">NAME IT</div>
+            <div class="brand-block">
+                <div class="brand">NAME IT</div>
+                <div id="version" class="version">v0.0.0</div>
+            </div>
 
             <div id="status" class="status off">
                 OFFLINE
@@ -182,6 +185,38 @@
 
                 <button id="dismiss" class="danger">
                     I WILL RENAME IT
+                </button>
+
+            </div>
+
+        </div>
+
+        <!-- UPDATE -->
+
+        <div id="update-overlay" class="overlay update hidden">
+
+            <div class="impact">
+
+                <div class="impact-line">
+                    NEW VERSION
+                </div>
+
+                <div class="message">
+                    A NEWER NAME IT IS WAITING FOR YOU.
+                </div>
+
+                <div class="file">
+                    YOU HAVE <span id="update-current">—</span>.
+                    <br>
+                    LATEST IS <span id="update-latest">—</span>.
+                </div>
+
+                <button id="update-open" class="danger">
+                    GET THE UPDATE
+                </button>
+
+                <button id="update-dismiss" class="secondary">
+                    LATER
                 </button>
 
             </div>

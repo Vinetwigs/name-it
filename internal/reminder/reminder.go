@@ -1,3 +1,6 @@
+// Package reminder holds the personality of Name It: a stack of increasingly
+// rude messages, one pool per aggression tier. MessageForLevel picks a tier
+// from the verdict and nudges it upward as the user keeps misbehaving.
 package reminder
 
 import (

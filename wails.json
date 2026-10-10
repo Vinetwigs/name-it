@@ -6,8 +6,15 @@
   "frontend:build": "npm run build",
   "frontend:dev": "npm run dev",
   "frontend:dir": "frontend",
+  "info": {
+    "companyName": "Vinetwigs",
+    "productName": "Name It",
+    "productVersion": "2.1.0",
+    "copyright": "Copyright (C) 2026 Vinetwigs",
+    "comments": "An offline desktop nagger for creative file names."
+  },
   "author": {
-    "name": "Name It",
+    "name": "Vinetwigs",
     "email": ""
   }
 }

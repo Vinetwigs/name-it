@@ -119,3 +119,24 @@ export namespace session {
 
 }
 
+export namespace updater {
+	
+	export class Release {
+	    version: string;
+	    url: string;
+	    notes: string;
+	
+	    static createFrom(source: any = {}) {
+	        return new Release(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.version = source["version"];
+	        this.url = source["url"];
+	        this.notes = source["notes"];
+	    }
+	}
+
+}
+

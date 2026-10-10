@@ -1,3 +1,5 @@
+// Package config defines the user-tunable settings for a session. Values are
+// kept in memory only; Name It has no persistent state to corrupt.
 package config
 
 type Config struct {

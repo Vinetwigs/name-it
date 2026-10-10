@@ -1,3 +1,19 @@
+// Package pattern turns a human-friendly naming template into a regular
+// expression and checks filenames against it.
+//
+// The template language is deliberately small:
+//
+//	filename   any non-empty filename stem
+//	extension  the extension without the dot
+//	X          one or more digits
+//	YYYY       four-digit year
+//	MM         two-digit month
+//	DD         two-digit day
+//
+// Anything else is treated as literal text. So, for example,
+//
+//	filename_vX.extension        ->  report_v1.txt, invoice_v42.pdf
+//	YYYY-MM-DD_filename_vX.extension ->  2026-09-21_report_v3.txt
 package pattern
 
 import (
@@ -7,25 +23,7 @@ import (
 	"time"
 )
 
-//	tokens:
-//
-//	filename   -> any non-empty filename
-//	extension  -> the file extension without the dot
-//	X          -> one or more digits
-//	YYYY       -> four-digit year
-//	MM         -> two-digit month
-//	DD         -> two-digit day
-//
-// Everything else treated as literal text.
-//
-//	data_filename_vX.extension
-//	data_report_v1.txt
-//	data_invoice_v42.pdf
-//
-//	YYYY-MM-DD_filename_vX.extension
-//	2026-09-21_report_v3.txt
-//
-
+// Matches reports whether filename satisfies the given pattern template.
 func Matches(filename string, pattern string) bool {
 	filename = filepath.Base(filename)
 	pattern = strings.TrimSpace(pattern)

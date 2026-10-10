@@ -97,6 +97,12 @@ header {
     padding-bottom: 14px;
 }
 
+.brand-block {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
 .brand {
     color: var(--ink);
 
@@ -105,6 +111,16 @@ header {
     line-height: 1;
 
     letter-spacing: 4px;
+}
+
+.version {
+    color: var(--muted);
+
+    font-size: 10px;
+    font-weight: 900;
+    line-height: 1;
+
+    letter-spacing: 2px;
 }
 
 .status {
@@ -454,10 +470,7 @@ header {
     animation: appear 0.12s steps(2, end);
 }
 
-/*
-   Thick pixel border.
-   No shadow. No glow. No transparency.
-*/
+/* A thick inset border gives every overlay the same framed, pixel-poster look. */
 
 .overlay::before {
     content: "";
@@ -469,6 +482,16 @@ header {
     border: 6px solid var(--ink);
 
     pointer-events: none;
+}
+
+/* Update notices are informational, so they use the calmer green instead of alarm pink. */
+
+.overlay.update {
+    background: var(--green);
+}
+
+.overlay.update .impact-line {
+    color: var(--white);
 }
 
 /* =========================================================
