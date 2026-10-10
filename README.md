@@ -24,7 +24,7 @@
 
 Name It watches a folder and forms opinions. Very specific opinions about the
 names you give your files. The moment a new file appears it reads the name,
-scores it, and — depending on how badly things are going — makes sure you hear
+scores it, and depending on how badly things are going makes sure you hear
 about it. It starts civil. It rarely stays civil.
 
 It never renames, moves, deletes or reads your files. It just refuses to stay
