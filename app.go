@@ -113,6 +113,13 @@ func (a *App) SetAggressiveness(level string) {
 	a.config.Aggressiveness = level
 }
 
+func (a *App) SetNotifications(enabled bool) {
+	a.mu.Lock()
+	defer a.mu.Unlock()
+
+	a.config.NotificationsEnabled = enabled
+}
+
 func (a *App) Pause(minutes int) {
 	a.session.Pause(time.Duration(minutes) * time.Minute)
 }
@@ -153,12 +160,12 @@ func (a *App) handleEvent(ev watcher.FileEvent) {
 	filename := filepath.Base(ev.Path)
 
 	if !matchesNamingRule(cfg, filename) {
-		a.session.Record(ev.Path)
+		a.session.Record(ev.Path, false)
 		return
 	}
 
 	assessment := scorer.Assess(ev.Path, a.session.RecentFiles())
-	a.session.Record(ev.Path)
+	a.session.Record(ev.Path, assessment.Score >= 30)
 
 	a.history.Add(history.Crime{
 		Timestamp: time.Now(),
@@ -187,6 +194,12 @@ func (a *App) handleEvent(ev watcher.FileEvent) {
 	a.noticeActive = true
 	a.mu.Unlock()
 
+	// The selected aggression acts as a floor, so a low score can still hit
+	// harder when the user asked for it.
+	if floor := aggressionFloor(cfg.Aggressiveness); floor > level {
+		level = floor
+	}
+
 	message := reminder.MessageForLevel(assessment.Severity, level, filename)
 
 	runtime.EventsEmit(a.ctx, "nameit:crime", map[string]interface{}{
@@ -198,7 +211,9 @@ func (a *App) handleEvent(ev watcher.FileEvent) {
 		"reasons":    assessment.Reasons,
 	})
 
-	_ = beeep.Notify("NAME IT", message, "")
+	if cfg.NotificationsEnabled {
+		_ = beeep.Notify("NAME IT", message, "")
+	}
 
 	runtime.WindowShow(a.ctx)
 	runtime.WindowSetAlwaysOnTop(a.ctx, true)
@@ -250,6 +265,23 @@ func (a *App) SetCustomPattern(custom string) {
 	defer a.mu.Unlock()
 
 	a.config.CustomPattern = custom
+}
+
+// aggressionFloor maps the user-facing aggression level onto the minimum
+// severity index handed to the reminder engine.
+func aggressionFloor(level string) int {
+	switch level {
+	case "polite":
+		return 0
+	case "normal":
+		return 1
+	case "unhinged":
+		return 4
+	case "annoying":
+		return 2
+	default:
+		return 2
+	}
 }
 
 // matchesNamingRule reports whether a filename should be judged at all. A file

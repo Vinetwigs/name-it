@@ -7,6 +7,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.1.1] - 2026-10-13
+
+### Fixed
+
+- The aggression selector now does what it says. `POLITE`, `NORMAL`,
+  `ANNOYING` and `UNHINGED` set a floor for the severity, so the chosen level
+  is a real minimum instead of a button that did nothing.
+- The `QUESTIONABLE` counter is now tracked by the backend and no longer
+  resets to zero on every refresh.
+- `FILES WATCHED` is now read back from the backend, so it stays consistent
+  with the files that were actually seen instead of only counting offences.
+- The desktop notification setting is now respected; notifications can be
+  turned on and off from the interface.
+
+### Removed
+
+- Unused configuration fields (`defaultReminderMinutes`,
+  `minimumReminderMinutes`, `ignoredExtensions`, `ignoredDirectories` and
+  `suspiciousWords`). They were never read by the application.
+
+### Documentation
+
+- Fixed a typo in the README.
+
 ## [2.1.0] - 2026-10-10
 
 ### Added
@@ -74,7 +98,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Full-window interruption overlay and native OS notification.
 - Pause, aggression and session controls.
 
-[Unreleased]: https://github.com/Vinetwigs/name-it/compare/v2.1.0...HEAD
+[Unreleased]: https://github.com/Vinetwigs/name-it/compare/v2.1.1...HEAD
+[2.1.1]: https://github.com/Vinetwigs/name-it/compare/v2.1.0...v2.1.1
 [2.1.0]: https://github.com/Vinetwigs/name-it/compare/v2.0...v2.1.0
 [2.0.0]: https://github.com/Vinetwigs/name-it/compare/v1.0...v2.0
 [1.0.0]: https://github.com/Vinetwigs/name-it/releases/tag/v1.0

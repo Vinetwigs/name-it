@@ -2,11 +2,6 @@ export namespace config {
 	
 	export class Config {
 	    aggressiveness: string;
-	    defaultReminderMinutes: number;
-	    minimumReminderMinutes: number;
-	    ignoredExtensions: string[];
-	    ignoredDirectories: string[];
-	    suspiciousWords: string[];
 	    notificationsEnabled: boolean;
 	    namingMode: string;
 	    customPattern: string;
@@ -18,11 +13,6 @@ export namespace config {
 	    constructor(source: any = {}) {
 	        if ('string' === typeof source) source = JSON.parse(source);
 	        this.aggressiveness = source["aggressiveness"];
-	        this.defaultReminderMinutes = source["defaultReminderMinutes"];
-	        this.minimumReminderMinutes = source["minimumReminderMinutes"];
-	        this.ignoredExtensions = source["ignoredExtensions"];
-	        this.ignoredDirectories = source["ignoredDirectories"];
-	        this.suspiciousWords = source["suspiciousWords"];
 	        this.notificationsEnabled = source["notificationsEnabled"];
 	        this.namingMode = source["namingMode"];
 	        this.customPattern = source["customPattern"];

@@ -114,11 +114,11 @@ $('#pause').onclick = async () => {
 };
 
 document
-    .querySelectorAll('.levels button')
+    .querySelectorAll('#aggression-levels button')
     .forEach(button => {
         button.onclick = async () => {
             document
-                .querySelectorAll('.levels button')
+                .querySelectorAll('#aggression-levels button')
                 .forEach(item => {
                     item.classList.remove('selected');
                 });
@@ -131,6 +131,16 @@ document
         };
     });
 
+function setNotifications(enabled) {
+    $('#notify-on').classList.toggle('selected', enabled);
+    $('#notify-off').classList.toggle('selected', !enabled);
+
+    window.go.main.App.SetNotifications(enabled);
+}
+
+$('#notify-on').onclick = () => setNotifications(true);
+$('#notify-off').onclick = () => setNotifications(false);
+
 $('#dismiss').onclick = async () => {
     overlay.classList.add('hidden');
 
@@ -142,19 +152,11 @@ $('#dismiss').onclick = async () => {
 window.runtime?.EventsOn?.(
     'nameit:crime',
     data => {
-        state.filesWatched++;
-
-        if (data.score >= 30) {
-            state.questionable++;
-        }
-
-        render();
-
         showCrime(data);
 
-        window.go.main.App
-            .GetCrimes()
-            .then(renderCrimes);
+        // Read the counters back from the backend so they stay accurate even
+        // for files that never produced a crime event.
+        refresh();
     }
 );
 

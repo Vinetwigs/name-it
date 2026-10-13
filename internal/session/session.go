@@ -51,11 +51,17 @@ func (m *Manager) Paused() bool {
 	defer m.mu.Unlock()
 	return !m.state.PausedUntil.IsZero() && time.Now().Before(m.state.PausedUntil)
 }
-func (m *Manager) Record(path string) {
+
+// Record stores a seen file and, when it was questionable, bumps the matching
+// counter shown in the UI.
+func (m *Manager) Record(path string, questionable bool) {
 	m.mu.Lock()
 	defer m.mu.Unlock()
 	m.files = append(m.files, FileRecord{Path: path, Name: filepath.Base(path), Extension: filepath.Ext(path), Folder: filepath.Dir(path), Timestamp: time.Now()})
 	m.state.FilesWatched++
+	if questionable {
+		m.state.Questionable++
+	}
 }
 func (m *Manager) RecentFiles() []FileRecord {
 	m.mu.Lock()

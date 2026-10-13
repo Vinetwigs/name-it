@@ -50,6 +50,10 @@ export function SetNamingMode(arg1) {
   return window['go']['main']['App']['SetNamingMode'](arg1);
 }
 
+export function SetNotifications(arg1) {
+  return window['go']['main']['App']['SetNotifications'](arg1);
+}
+
 export function StartWorking(arg1) {
   return window['go']['main']['App']['StartWorking'](arg1);
 }

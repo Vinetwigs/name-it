@@ -29,6 +29,8 @@ export function SetCustomPattern(arg1:string):Promise<void>;
 
 export function SetNamingMode(arg1:string):Promise<void>;
 
+export function SetNotifications(arg1:boolean):Promise<void>;
+
 export function StartWorking(arg1:string):Promise<void>;
 
 export function StopWorking():Promise<void>;
