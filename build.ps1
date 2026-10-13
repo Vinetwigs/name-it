@@ -3,26 +3,27 @@
     Builds a release-ready Name It executable.
 
 .DESCRIPTION
-    Produces a Windows binary with Go symbols and DWARF data stripped, paths
-    trimmed, and the result compressed with UPX using its strongest practical
-    settings (--best + LZMA). The packed executable is copied to -OutDir using
-    a versioned file name.
+    Produces a Windows binary with Go symbols and DWARF data stripped and local
+    paths trimmed. UPX compression is optional and disabled by default; pass
+    -Upx to pack the binary with UPX using its strongest practical settings
+    (--best + LZMA). The resulting executable is copied to -OutDir using a
+    versioned file name.
 
 .PARAMETER OutDir
     Directory that receives the final artifact. Defaults to "dist".
 
-.PARAMETER SkipUpx
-    Build and strip the binary but leave it uncompressed.
+.PARAMETER Upx
+    Compress the binary with UPX after stripping it.
 
 .EXAMPLE
     ./build.ps1
-    ./build.ps1 -OutDir dist -SkipUpx
+    ./build.ps1 -OutDir dist -Upx
 #>
 
 [CmdletBinding()]
 param(
     [string]$OutDir = "dist",
-    [switch]$SkipUpx
+    [switch]$Upx
 )
 
 $ErrorActionPreference = "Stop"
@@ -62,8 +63,8 @@ if (-not $exe) {
     throw "The build did not produce an executable in build\bin."
 }
 
-if ($SkipUpx) {
-    Write-Host "Skipping UPX compression." -ForegroundColor Yellow
+if (-not $Upx) {
+    Write-Host "Skipping UPX compression (pass -Upx to enable it)." -ForegroundColor Yellow
 }
 elseif (Get-Command upx -ErrorAction SilentlyContinue) {
     Write-Host "Compressing with UPX (--best --lzma)..."

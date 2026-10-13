@@ -67,9 +67,9 @@ Grab the compressed archive for your platform from the
 | Linux | `name-it-*-linux-amd64.tar.gz` | Needs WebKit2GTK 4.1 at runtime. |
 | macOS | `name-it-*-macos-universal.zip` | Universal build (Intel + Apple Silicon). |
 
-Windows and Linux binaries are stripped and packed with
-[UPX](https://upx.github.io/) using its strongest practical settings. The macOS
-bundle is left unpadded so it stays friendly with Gatekeeper.
+Windows binaries are stripped and left unpacked. Linux binaries are stripped
+and packed with [UPX](https://upx.github.io/) using its strongest practical
+settings. The macOS bundle is left unpadded.
 
 ## How it works
 
@@ -104,17 +104,22 @@ wails dev
 
 ### Release build
 
-On Windows, the included script strips symbols and compresses the result:
+On Windows, the included script strips symbols and trims paths:
 
 ```powershell
 ./build.ps1
+```
+
+Pass `-Upx` to also pack the binary with UPX:
+
+```powershell
+./build.ps1 -Upx
 ```
 
 Or drive Wails directly:
 
 ```bash
 wails build -clean -trimpath -ldflags "-s -w"
-upx --best --lzma build/bin/name-it.exe
 ```
 
 Pushing a `vX.Y.Z` tag builds Windows, Linux and macOS in CI and publishes
@@ -186,7 +191,7 @@ Everything else is treated as literal text. For example,
 │   ├── version             version constant
 │   └── watcher             fsnotify wrapper
 ├── frontend                vanilla HTML/CSS/JS interface
-├── build.ps1               local stripped + UPX release build
+├── build.ps1               local stripped release build
 └── .github/workflows       CI and multi-platform release automation
 ```
 

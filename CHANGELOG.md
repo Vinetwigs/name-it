@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.1.2] - 2026-10-13
+
+### Changed
+
+- Windows builds are no longer packed with UPX. The executable is still
+  stripped and trimmed.
+- The local build script now defaults to an uncompressed binary; UPX is opt-in
+  with `-Upx`.
+
 ## [2.1.1] - 2026-10-13
 
 ### Fixed
@@ -98,7 +107,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Full-window interruption overlay and native OS notification.
 - Pause, aggression and session controls.
 
-[Unreleased]: https://github.com/Vinetwigs/name-it/compare/v2.1.1...HEAD
+[Unreleased]: https://github.com/Vinetwigs/name-it/compare/v2.1.2...HEAD
+[2.1.2]: https://github.com/Vinetwigs/name-it/compare/v2.1.1...v2.1.2
 [2.1.1]: https://github.com/Vinetwigs/name-it/compare/v2.1.0...v2.1.1
 [2.1.0]: https://github.com/Vinetwigs/name-it/compare/v2.0...v2.1.0
 [2.0.0]: https://github.com/Vinetwigs/name-it/compare/v1.0...v2.0

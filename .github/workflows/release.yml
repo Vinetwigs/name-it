@@ -20,7 +20,7 @@ jobs:
             os: windows-latest
             platform: windows/amd64
             extra: ""
-            upx: true
+            upx: false
           - name: linux-amd64
             os: ubuntu-latest
             platform: linux/amd64
@@ -54,7 +54,7 @@ jobs:
           sudo apt-get install -y libgtk-3-dev libwebkit2gtk-4.1-dev
 
       - name: Install UPX (Windows)
-        if: runner.os == 'Windows'
+        if: matrix.upx && runner.os == 'Windows'
         run: choco install upx --no-progress -y
 
       - name: Install UPX (Linux)

@@ -2,7 +2,7 @@
 package version
 
 // Version follows semantic versioning, without the leading "v".
-const Version = "2.1.1"
+const Version = "2.1.2"
 
 // Display returns the version as shown in the UI and used in comparisons
 // against published Git tags.
